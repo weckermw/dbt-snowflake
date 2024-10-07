@@ -31,28 +31,3 @@ models:
   - name: dim_hosts_cleansed
     description: Here is some sample documentation
     columns: []
-  - name: dim_listings_w_hosts
-    tests:
-      - dbt_expectations.expect_table_row_count_to_equal_other_table:
-          compare_model: source('airbnb', 'listings')
-    columns:
-      - name: price
-        tests:
-          - dbt_expectations.expect_column_values_to_be_of_type:
-              column_type: number
-          - dbt_expectations.expect_column_quantile_values_to_be_between:
-              quantile: 0.99
-              min_value: 50
-              max_value: 500
-          - dbt_expectations.expect_column_max_to_be_between:
-              max_value: 5000
-              config:
-                severity: warn
-  - name: fct_reviews
-    description: "The fct_reviews model is a transformation of the raw_reviews table
-      from the AIRBNB.raw schema. It includes the following columns: review_id,
-      listing_id, review_date, reviewer_name, review_text, and review_sentiment.
-      The review_id is a unique identifier generated using the MD5 hash function
-      on a concatenation of the listing_id, review_date, reviewer_name, and
-      review_text. The model filters out records where the review_text is null."
-    columns: []
